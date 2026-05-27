@@ -48,6 +48,18 @@ $ go build -ldflags "-s -w" cf.go
 
 If you don't know what's the `$GOPATH`, please see here <https://github.com/golang/go/wiki/GOPATH>.
 
+参考知识
+38/5000
+Reference Knowledge 38/5000 AI Translation and Mapping AI Large Model Translation If it fails to download, it may be because a domestic proxy cannot be used due to lack of records. You can use a command to bypass the proxy.
+
+划译
+
+If it fails to download, it may be because a domestic proxy cannot be used due to lack of records. You can use a command to bypass the proxy.
+
+```plain
+$ go env -w GOPRIVATE=gitcode.com/sheng_wang/cf-tool_modify
+```
+
 ## Usage
 
 Let's simulate a competition.

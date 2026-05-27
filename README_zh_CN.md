@@ -48,6 +48,12 @@ $ go build -ldflags "-s -w" cf.go
 
 如果你不知道 `$GOPATH` 是什么，请看一下这篇文章 <https://github.com/golang/go/wiki/GOPATH>.
 
+如果下不下来，可能是不能用国内的代理，因为没有记录，可以使用命令，绕过代理
+
+```plain
+$ go env -w GOPRIVATE=gitcode.com/sheng_wang/cf-tool_modify
+```
+
 ## 使用方法
 
 以下简单模拟一场比赛的流程。
