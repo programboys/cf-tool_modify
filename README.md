@@ -107,6 +107,7 @@ Usage:
   cf pull [ac] [<specifier>...]
   cf clone [ac] [<handle>]
   cf upgrade
+  cf statement
 
 Options:
   -h --help            Show this screen.
@@ -173,6 +174,7 @@ Examples:
                        path.
   cf clone xalanq      Clone all codes of xalanq.
   cf upgrade           Upgrade the "cf" to the latest version from GitHub.
+  cf statement         Fetch statement of current problem into current path.
 
 File:
   cf will save some data in some files:

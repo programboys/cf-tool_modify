@@ -49,6 +49,8 @@ func Eval(opts docopt.Opts) error {
 		return Pull()
 	} else if Args.Clone {
 		return Clone()
+	} else if Args.Statement {
+		return Statement()
 	} else if Args.Upgrade {
 		return Upgrade()
 	}

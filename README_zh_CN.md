@@ -106,6 +106,7 @@ $ go build -ldflags "-s -w" cf.go
   cf pull [ac] [<specifier>...]
   cf clone [ac] [<handle>]
   cf upgrade
+  cf statement [<specifier>...]
 
 参数:
   -h --help            帮助。
@@ -160,6 +161,7 @@ $ go build -ldflags "-s -w" cf.go
   cf pull              拉取当前题目的最新代码到当前文件夹下。
   cf clone xalanq      拉取 xalanq 的所有提交代码。
   cf upgrade           从 GitHub 更新 "cf" 到最新版。
+  cf statement         拉取题面
 
 储存的文件:
   cf 会保存数据到以下文件：

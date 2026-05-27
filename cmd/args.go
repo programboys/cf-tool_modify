@@ -35,6 +35,7 @@ type ParsedArgs struct {
 	Pull      bool     `docopt:"pull"`
 	Clone     bool     `docopt:"clone"`
 	Upgrade   bool     `docopt:"upgrade"`
+	Statement bool     `docopt:"statement"`
 }
 
 // Args global variable

@@ -41,6 +41,7 @@ Usage:
   cf race [<specifier>...]
   cf pull [ac] [<specifier>...]
   cf clone [ac] [<handle>]
+  cf statement [<specifier>...]
   cf upgrade
 
 Options:
@@ -107,6 +108,9 @@ Examples:
   cf pull              Pull the latest codes of current problem into current
                        path.
   cf clone xalanq      Clone all codes of xalanq.
+  cf statement         Fetch problem statement of current problem as statement.md.
+  cf statement 1136a   Fetch statement of contest 1136 problem a.
+  cf statement 1136    Fetch all statements of contest 1136.
   cf upgrade           Upgrade the "cf" to the latest version from GitHub.
 
 File:
