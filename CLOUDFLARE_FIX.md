@@ -33,8 +33,8 @@ those cookies and verifies the session by checking the homepage for the logged-i
 
 | Before | After |
 |--------|-------|
-| `module sg.com/sg/cf-tool` | `module github.com/xalanq/cf-tool` |
-| `require github.com/xalanq/cf-tool v1.0.0` | *(removed)* |
+| `module sg.com/sg/cf-tool` | `module gitcode.com/sheng_wang/cf-tool_modify` |
+| `require gitcode.com/sheng_wang/cf-tool_modify v1.0.0` | *(removed)* |
 
 The module name was mismatched with all local import paths, causing Go to resolve every
 internal package from the stale `vendor/` snapshot instead of the local source files.

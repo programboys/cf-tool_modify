@@ -5,7 +5,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/xalanq/cf-tool/util"
+	"gitcode.com/sheng_wang/cf-tool_modify/util"
 )
 
 // StatisInfo statis information

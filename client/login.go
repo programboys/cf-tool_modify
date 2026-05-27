@@ -15,9 +15,9 @@ import (
 	"strings"
 	"syscall"
 
+	"gitcode.com/sheng_wang/cf-tool_modify/cookiejar"
+	"gitcode.com/sheng_wang/cf-tool_modify/util"
 	"github.com/fatih/color"
-	"github.com/xalanq/cf-tool/cookiejar"
-	"github.com/xalanq/cf-tool/util"
 	"golang.org/x/crypto/ssh/terminal"
 )
 

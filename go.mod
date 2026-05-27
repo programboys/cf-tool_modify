@@ -1,4 +1,4 @@
-module github.com/xalanq/cf-tool
+module gitcode.com/sheng_wang/cf-tool_modify
 
 go 1.26.3
 
@@ -12,6 +12,7 @@ require (
 	github.com/sergi/go-diff v1.4.0
 	github.com/shirou/gopsutil v3.21.11+incompatible
 	github.com/skratchdot/open-golang v0.0.0-20200116055534-eef842397966
+	github.com/xalanq/cf-tool v1.0.0
 	golang.org/x/crypto v0.52.0
 )
 
