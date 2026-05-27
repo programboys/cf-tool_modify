@@ -5,12 +5,12 @@ import (
 	"os"
 	"strings"
 
+	"gitcode.com/sheng_wang/cf-tool_modify/client"
+	"gitcode.com/sheng_wang/cf-tool_modify/cmd"
+	"gitcode.com/sheng_wang/cf-tool_modify/config"
 	"github.com/fatih/color"
 	ansi "github.com/k0kubun/go-ansi"
 	"github.com/mitchellh/go-homedir"
-	"github.com/xalanq/cf-tool/client"
-	"github.com/xalanq/cf-tool/cmd"
-	"github.com/xalanq/cf-tool/config"
 
 	docopt "github.com/docopt/docopt-go"
 )
@@ -20,7 +20,7 @@ const configPath = "~/.cf/config"
 const sessionPath = "~/.cf/session"
 
 func main() {
-	usage := `Codeforces Tool $%version%$ (cf). https://github.com/xalanq/cf-tool
+	usage := `Codeforces Tool $%version%$ (cf). https://gitcode.com/sheng_wang/cf-tool_modify
 
 You should run "cf config" to configure your handle, password and code
 templates at first.

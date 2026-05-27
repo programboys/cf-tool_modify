@@ -9,10 +9,10 @@ import (
 	"strings"
 	"time"
 
+	"gitcode.com/sheng_wang/cf-tool_modify/client"
+	"gitcode.com/sheng_wang/cf-tool_modify/config"
+	"gitcode.com/sheng_wang/cf-tool_modify/util"
 	"github.com/fatih/color"
-	"github.com/xalanq/cf-tool/client"
-	"github.com/xalanq/cf-tool/config"
-	"github.com/xalanq/cf-tool/util"
 )
 
 func parseTemplate(source string, cln *client.Client) string {

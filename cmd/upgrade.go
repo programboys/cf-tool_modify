@@ -15,8 +15,8 @@ import (
 	"strconv"
 	"time"
 
+	"gitcode.com/sheng_wang/cf-tool_modify/util"
 	"github.com/fatih/color"
-	"github.com/xalanq/cf-tool/util"
 )
 
 func less(a, b string) bool {
@@ -77,7 +77,7 @@ func getLatest() (version, note, ptime, url string, size uint, err error) {
 	note = result["body"].(string)
 	tm, _ := time.Parse("2006-01-02T15:04:05Z", result["published_at"].(string))
 	ptime = tm.In(time.Local).Format("2006-01-02 15:04")
-	url = fmt.Sprintf("https://github.com/xalanq/cf-tool/releases/download/%v/cf_%v_%v_%v.zip", version, version, goos, arch)
+	url = fmt.Sprintf("https://gitcode.com/sheng_wang/cf-tool_modify/releases/download/%v/cf_%v_%v_%v.zip", version, version, goos, arch)
 	assets, _ := result["assets"].([]interface{})
 	for _, tmp := range assets {
 		asset, _ := tmp.(map[string]interface{})

@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"github.com/xalanq/cf-tool/client"
+	"gitcode.com/sheng_wang/cf-tool_modify/client"
 )
 
 // Watch command

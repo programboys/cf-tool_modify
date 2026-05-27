@@ -13,12 +13,12 @@ import (
 	"strings"
 	"unicode"
 
+	"gitcode.com/sheng_wang/cf-tool_modify/config"
+	"gitcode.com/sheng_wang/cf-tool_modify/util"
 	"github.com/fatih/color"
 	ansi "github.com/k0kubun/go-ansi"
 	"github.com/sergi/go-diff/diffmatchpatch"
 	"github.com/shirou/gopsutil/process"
-	"github.com/xalanq/cf-tool/config"
-	"github.com/xalanq/cf-tool/util"
 )
 
 func splitCmd(s string) (res []string) {
