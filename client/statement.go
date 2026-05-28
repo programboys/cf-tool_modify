@@ -117,8 +117,8 @@ func (c *Client) FetchStatement(URL, path string, mu *sync.Mutex) error {
 			sb.WriteString("## Sample Tests\n\n")
 			s.Find(".sample-test").Each(func(i int, st *goquery.Selection) {
 				sb.WriteString(fmt.Sprintf("### Sample %d\n\n", i+1))
-				inputText := strings.TrimSpace(st.Find(".input pre").Text())
-				outputText := strings.TrimSpace(st.Find(".output pre").Text())
+				inputText := strings.TrimSpace(nodeText(st.Find(".input pre")))
+				outputText := strings.TrimSpace(nodeText(st.Find(".output pre")))
 				sb.WriteString("**Input**\n```\n")
 				sb.WriteString(inputText)
 				sb.WriteString("\n```\n\n**Output**\n```\n")
