@@ -110,7 +110,7 @@ Usage:
   cf list [<specifier>...]
   cf parse [<specifier>...]
   cf gen [<alias>]
-  cf test [<file>]
+  cf test [-f <file>] [-d <dir>]
   cf watch [all] [<specifier>...]
   cf open [<specifier>...]
   cf stand [<specifier>...]
@@ -119,13 +119,16 @@ Usage:
   cf pull [ac] [<specifier>...]
   cf clone [ac] [<handle>]
   cf upgrade
-  cf statement
+  cf statement [<specifier>...]
+  cf material [<specifier>...]
 
 Options:
   -h --help            Show this screen.
   --version            Show version.
   -f <file>, --file <file>, <file>
                        Path to file. E.g. "a.cpp", "./temp/a.cpp"
+  -d <dir>, --dir <dir>
+                       Path to directory containing sample files for cf test.
   <specifier>          Any useful text. E.g.
                        "https://codeforces.com/contest/100",
                        "https://codeforces.com/contest/180/problem/A",
@@ -163,6 +166,8 @@ Examples:
                        test all samples. If you want to add a new testcase,
                        create two files "inK.txt" and "ansK.txt" where K is
                        a string with 0~9.
+  cf test -f a.cpp -d ./1a
+                       Test a.cpp using sample files from directory ./1a.
   cf watch             Watch the first 10 submissions of current contest.
   cf watch all         Watch all submissions of current contest.
   cf open 1136a        Use default web browser to open the page of contest
@@ -187,6 +192,10 @@ Examples:
   cf clone xalanq      Clone all codes of xalanq.
   cf upgrade           Upgrade the "cf" to the latest version from GitHub.
   cf statement         Fetch statement of current problem into current path.
+  cf statement 1136a   Fetch statement of contest 1136 problem a.
+  cf statement 1136    Fetch all statements of contest 1136.
+  cf material 1136     Fetch all Contest materials (announcement, tutorial, etc.)
+                       for contest 1136 and save as .md files.
 
 File:
   cf will save some data in some files:

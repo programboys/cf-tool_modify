@@ -61,9 +61,9 @@ func plain(raw []byte) string {
 	return b.String()
 }
 
-func judge(sampleID, command string) error {
-	inPath := fmt.Sprintf("in%v.txt", sampleID)
-	ansPath := fmt.Sprintf("ans%v.txt", sampleID)
+func judge(sampleID, sampleDir, command string) error {
+	inPath := filepath.Join(sampleDir, fmt.Sprintf("in%v.txt", sampleID))
+	ansPath := filepath.Join(sampleDir, fmt.Sprintf("ans%v.txt", sampleID))
 	input, err := os.Open(inPath)
 	if err != nil {
 		return err
@@ -154,11 +154,11 @@ func Test() (err error) {
 	if len(cfg.Template) == 0 {
 		return errors.New("You have to add at least one code template by `cf config`")
 	}
-	samples := getSampleID()
+	samples := getSampleID(Args.Dir)
 	if len(samples) == 0 {
 		return errors.New("Cannot find any sample file")
 	}
-	filename, index, err := getOneCode(Args.File, cfg.Template)
+	filename, index, err := getOneCode(Args.File, Args.Dir, cfg.Template)
 	if err != nil {
 		return
 	}
@@ -193,7 +193,7 @@ func Test() (err error) {
 	}
 	if s := filter(template.Script); len(s) > 0 {
 		for _, i := range samples {
-			err := judge(i, s)
+			err := judge(i, Args.Dir, s)
 			if err != nil {
 				color.Red(err.Error())
 			}

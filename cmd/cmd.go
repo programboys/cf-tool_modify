@@ -51,28 +51,34 @@ func Eval(opts docopt.Opts) error {
 		return Clone()
 	} else if Args.Statement {
 		return Statement()
+	} else if Args.Material {
+		return Material()
 	} else if Args.Upgrade {
 		return Upgrade()
 	}
 	return nil
 }
 
-func getSampleID() (samples []string) {
-	path, err := os.Getwd()
-	if err != nil {
-		return
+func getSampleID(dir string) (samples []string) {
+	path := dir
+	if path == "" {
+		var err error
+		path, err = os.Getwd()
+		if err != nil {
+			return
+		}
 	}
 	paths, err := ioutil.ReadDir(path)
 	if err != nil {
 		return
 	}
 	reg := regexp.MustCompile(`in(\d+).txt`)
-	for _, path := range paths {
-		name := path.Name()
+	for _, f := range paths {
+		name := f.Name()
 		tmp := reg.FindSubmatch([]byte(name))
 		if tmp != nil {
 			idx := string(tmp[1])
-			ans := fmt.Sprintf("ans%v.txt", idx)
+			ans := filepath.Join(path, fmt.Sprintf("ans%v.txt", idx))
 			if _, err := os.Stat(ans); err == nil {
 				samples = append(samples, idx)
 			}
@@ -87,7 +93,7 @@ type CodeList struct {
 	Index []int
 }
 
-func getCode(filename string, templates []config.CodeTemplate) (codes []CodeList, err error) {
+func getCode(filename, dir string, templates []config.CodeTemplate) (codes []CodeList, err error) {
 	mp := make(map[string][]int)
 	for i, temp := range templates {
 		suffixMap := map[string]bool{}
@@ -108,28 +114,31 @@ func getCode(filename string, templates []config.CodeTemplate) (codes []CodeList
 		return nil, fmt.Errorf("%v can not match any template. You could add a new template by `cf config`", filename)
 	}
 
-	path, err := os.Getwd()
-	if err != nil {
-		return
+	scanDir := dir
+	if scanDir == "" {
+		scanDir, err = os.Getwd()
+		if err != nil {
+			return
+		}
 	}
-	paths, err := ioutil.ReadDir(path)
+	paths, err := ioutil.ReadDir(scanDir)
 	if err != nil {
 		return
 	}
 
-	for _, path := range paths {
-		name := path.Name()
+	for _, f := range paths {
+		name := f.Name()
 		ext := filepath.Ext(name)
 		if idx, ok := mp[ext]; ok {
-			codes = append(codes, CodeList{name, idx})
+			codes = append(codes, CodeList{filepath.Join(scanDir, name), idx})
 		}
 	}
 
 	return codes, nil
 }
 
-func getOneCode(filename string, templates []config.CodeTemplate) (name string, index int, err error) {
-	codes, err := getCode(filename, templates)
+func getOneCode(filename, dir string, templates []config.CodeTemplate) (name string, index int, err error) {
+	codes, err := getCode(filename, dir, templates)
 	if err != nil {
 		return
 	}

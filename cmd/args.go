@@ -15,6 +15,7 @@ import (
 type ParsedArgs struct {
 	Info      client.Info
 	File      string
+	Dir       string   `docopt:"--dir"`
 	Specifier []string `docopt:"<specifier>"`
 	Alias     string   `docopt:"<alias>"`
 	Accepted  bool     `docopt:"ac"`
@@ -36,6 +37,7 @@ type ParsedArgs struct {
 	Clone     bool     `docopt:"clone"`
 	Upgrade   bool     `docopt:"upgrade"`
 	Statement bool     `docopt:"statement"`
+	Material  bool     `docopt:"material"`
 }
 
 // Args global variable
@@ -52,6 +54,9 @@ func parseArgs(opts docopt.Opts) error {
 		Args.File = file
 	} else if file, ok := opts["<file>"].(string); ok {
 		Args.File = file
+	}
+	if dir, ok := opts["--dir"].(string); ok {
+		Args.Dir = dir
 	}
 	if Args.Handle == "" {
 		Args.Handle = cln.Handle

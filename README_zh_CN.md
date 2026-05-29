@@ -103,7 +103,7 @@ $ go env -w GOPRIVATE=gitcode.com/sheng_wang/cf-tool_modify
   cf list [<specifier>...]
   cf parse [<specifier>...]
   cf gen [<alias>]
-  cf test [<file>]
+  cf test [-f <file>] [-d <dir>]
   cf watch [all] [<specifier>...]
   cf open [<specifier>...]
   cf stand [<specifier>...]
@@ -113,12 +113,15 @@ $ go env -w GOPRIVATE=gitcode.com/sheng_wang/cf-tool_modify
   cf clone [ac] [<handle>]
   cf upgrade
   cf statement [<specifier>...]
+  cf material [<specifier>...]
 
 参数:
   -h --help            帮助。
   --version            显示版本。
   -f <file>, --file <file>, <file>
                        文件的路径，例如 "a.cpp"、"./temp/a.cpp"
+  -d <dir>, --dir <dir>
+                       样例文件所在目录路径，用于 cf test。
   <specifier>          任何有用的文本，例如
                        "https://codeforces.com/contest/100"、
                        "https://codeforces.com/contest/180/problem/A"、
@@ -152,6 +155,8 @@ $ go env -w GOPRIVATE=gitcode.com/sheng_wang/cf-tool_modify
   cf gen cpp           用名字为 "cpp" 的模板来生成一份代码到当前文件夹下。
   cf test              在当前目录下执行模板里的命令，并测试全部样例。如果你想加一组新的测试数据，
                        新建两个文件 "inK.txt" 和 "ansK.txt" 即可，其中 K 是包含 0~9 的字符串。
+  cf test -f a.cpp -d ./1a
+                       用 ./1a 目录下的样例文件测试 a.cpp。
   cf watch             查看自己在当前比赛的最后 10 次提交结果。
   cf watch all         查看自己在当前比赛的全部提交结果
   cf open 1136a        用默认的浏览器打开比赛 contest 1136, problem a.
@@ -167,7 +172,10 @@ $ go env -w GOPRIVATE=gitcode.com/sheng_wang/cf-tool_modify
   cf pull              拉取当前题目的最新代码到当前文件夹下。
   cf clone xalanq      拉取 xalanq 的所有提交代码。
   cf upgrade           从 GitHub 更新 "cf" 到最新版。
-  cf statement         拉取题面
+  cf statement         拉取当前题目的题面到当前文件夹下。
+  cf statement 1136a   拉取比赛 1136 题目 a 的题面。
+  cf statement 1136    拉取比赛 1136 所有题目的题面。
+  cf material 1136     拉取比赛 1136 的所有比赛资料（公告、题解等）并保存为 .md 文件。
 
 储存的文件:
   cf 会保存数据到以下文件：
