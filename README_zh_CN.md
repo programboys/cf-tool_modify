@@ -103,7 +103,7 @@ $ go env -w GOPRIVATE=gitcode.com/sheng_wang/cf-tool_modify
   cf list [<specifier>...]
   cf parse [<specifier>...]
   cf gen [<alias>]
-  cf test [-f <file>] [-d <dir>]
+  cf test [-f <file>] [-d <dir>] [<specifier>...]
   cf watch [all] [<specifier>...]
   cf open [<specifier>...]
   cf stand [<specifier>...]
@@ -157,6 +157,8 @@ $ go env -w GOPRIVATE=gitcode.com/sheng_wang/cf-tool_modify
                        新建两个文件 "inK.txt" 和 "ansK.txt" 即可，其中 K 是包含 0~9 的字符串。
   cf test -f a.cpp -d ./1a
                        用 ./1a 目录下的样例文件测试 a.cpp。
+  cf test 2231a
+                       在./cf/contest/2231/a目录下测试对应样例文件
   cf watch             查看自己在当前比赛的最后 10 次提交结果。
   cf watch all         查看自己在当前比赛的全部提交结果
   cf open 1136a        用默认的浏览器打开比赛 contest 1136, problem a.

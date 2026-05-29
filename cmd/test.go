@@ -154,9 +154,15 @@ func Test() (err error) {
 	if len(cfg.Template) == 0 {
 		return errors.New("You have to add at least one code template by `cf config`")
 	}
+	if len(Args.Specifier) > 0 {
+		info := Args.Info
+		info.RootPath = Args.Info.RootPath
+		Args.Dir = info.Path()
+	}
+
 	samples := getSampleID(Args.Dir)
 	if len(samples) == 0 {
-		return errors.New("Cannot find any sample file")
+		return errors.New("Cannot find any sample file " + Args.Dir)
 	}
 	filename, index, err := getOneCode(Args.File, Args.Dir, cfg.Template)
 	if err != nil {
