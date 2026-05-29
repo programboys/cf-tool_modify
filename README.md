@@ -110,7 +110,7 @@ Usage:
   cf list [<specifier>...]
   cf parse [<specifier>...]
   cf gen [<alias>]
-  cf test [-f <file>] [-d <dir>]
+  cf test [-f <file>] [-d <dir>] [<specifier>...]
   cf watch [all] [<specifier>...]
   cf open [<specifier>...]
   cf stand [<specifier>...]
@@ -168,6 +168,8 @@ Examples:
                        a string with 0~9.
   cf test -f a.cpp -d ./1a
                        Test a.cpp using sample files from directory ./1a.
+  cf test 2231a
+                       in ./cf/contest/2231/a directory test
   cf watch             Watch the first 10 submissions of current contest.
   cf watch all         Watch all submissions of current contest.
   cf open 1136a        Use default web browser to open the page of contest
