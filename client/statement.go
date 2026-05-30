@@ -20,15 +20,18 @@ func nodeText(sel *goquery.Selection) string {
 		switch goquery.NodeName(s) {
 		case "br":
 			sb.WriteByte('\n')
+			sb.WriteByte('\n')
 		case "#text":
 			sb.WriteString(s.Text())
 		case "p", "div":
 			sb.WriteString(nodeText(s))
 			sb.WriteByte('\n')
+			sb.WriteByte('\n')
 		case "ul", "ol":
 			s.Find("li").Each(func(_ int, li *goquery.Selection) {
 				sb.WriteString("- ")
 				sb.WriteString(strings.TrimSpace(nodeText(li)))
+				sb.WriteByte('\n')
 				sb.WriteByte('\n')
 			})
 		default:
@@ -95,6 +98,7 @@ func (c *Client) FetchStatement(URL, path string, mu *sync.Mutex) error {
 		sb.WriteString("\n")
 		_ = limits
 	}
+	sb.WriteString("\n")
 	memLimit := strings.TrimSpace(doc.Find(".memory-limit").Text())
 	if memLimit != "" {
 		sb.WriteString("**")
@@ -118,7 +122,10 @@ func (c *Client) FetchStatement(URL, path string, mu *sync.Mutex) error {
 			s.Find(".sample-test").Each(func(i int, st *goquery.Selection) {
 				sb.WriteString(fmt.Sprintf("### Sample %d\n\n", i+1))
 				inputText := strings.TrimSpace(nodeText(st.Find(".input pre")))
+				reg := regexp.MustCompile(`\n{2,}`)
+				inputText = reg.ReplaceAllString(inputText, "\n")
 				outputText := strings.TrimSpace(nodeText(st.Find(".output pre")))
+				outputText = reg.ReplaceAllString(outputText, "\n")
 				sb.WriteString("**Input**\n```\n")
 				sb.WriteString(inputText)
 				sb.WriteString("\n```\n\n**Output**\n```\n")
