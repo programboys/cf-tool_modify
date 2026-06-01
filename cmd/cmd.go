@@ -114,27 +114,31 @@ func getCode(filename, dir string, templates []config.CodeTemplate) (codes []Cod
 		return nil, fmt.Errorf("%v can not match any template. You could add a new template by `cf config`", filename)
 	}
 
-	scanDir := dir
-	if scanDir == "" {
-		scanDir, err = os.Getwd()
+	scanDirs := [3]string{dir, Args.Info.Path(), ""}
+	wd, err := os.Getwd()
+	if err == nil {
+		scanDirs[2] = wd
+	}
+	for _, scanDir := range scanDirs {
+		if scanDir == "" {
+			continue
+		}
+		paths, err := ioutil.ReadDir(scanDir)
 		if err != nil {
-			return
+			continue
 		}
-	}
-	paths, err := ioutil.ReadDir(scanDir)
-	if err != nil {
-		return
-	}
 
-	for _, f := range paths {
-		name := f.Name()
-		ext := filepath.Ext(name)
-		if idx, ok := mp[ext]; ok {
-			codes = append(codes, CodeList{filepath.Join(scanDir, name), idx})
+		for _, f := range paths {
+			name := f.Name()
+			ext := filepath.Ext(name)
+			if idx, ok := mp[ext]; ok {
+				codes = append(codes, CodeList{filepath.Join(scanDir, name), idx})
+			}
 		}
-	}
 
-	return codes, nil
+		return codes, nil
+	}
+	return nil, nil
 }
 
 func getOneCode(filename, dir string, templates []config.CodeTemplate) (name string, index int, err error) {

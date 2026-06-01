@@ -155,9 +155,7 @@ func Test() (err error) {
 		return errors.New("You have to add at least one code template by `cf config`")
 	}
 	if len(Args.Specifier) > 0 {
-		info := Args.Info
-		info.RootPath = Args.Info.RootPath
-		Args.Dir = info.Path()
+		Args.Dir = Args.Info.Path()
 	}
 
 	samples := getSampleID(Args.Dir)

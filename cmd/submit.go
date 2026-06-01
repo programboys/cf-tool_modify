@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"fmt"
 	"io/ioutil"
 
 	"gitcode.com/sheng_wang/cf-tool_modify/client"
@@ -21,6 +22,7 @@ func Submit() (err error) {
 	if err != nil {
 		return
 	}
+	fmt.Printf("submit file %s\n", filename)
 	source := string(bytes)
 
 	lang := cfg.Template[index].Lang
