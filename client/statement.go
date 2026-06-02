@@ -144,6 +144,7 @@ func (c *Client) FetchStatement(URL, path string, mu *sync.Mutex) error {
 	content = reg.ReplaceAllString(content, "\n\n")
 	// Codeforces uses $$$ for both inline and display math; replace with $
 	content = strings.ReplaceAll(content, "$$$", "$")
+	content = strings.ReplaceAll(content, "$$", "$")
 
 	outFile := filepath.Join(path, "statement.md")
 	if err := ioutil.WriteFile(outFile, []byte(content), 0644); err != nil {
