@@ -3,7 +3,7 @@ package client
 import (
 	"encoding/json"
 	"fmt"
-	"html"
+	stdhtml "html"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -11,6 +11,8 @@ import (
 	"path/filepath"
 	"regexp"
 	"strings"
+
+	"golang.org/x/net/html"
 
 	"gitcode.com/sheng_wang/cf-tool_modify/util"
 	"github.com/PuerkitoBio/goquery"
@@ -69,7 +71,7 @@ func (c *Client) fetchProblemTutorial(problemCode, csrf, referer string) string 
 
 // renderSpoiler renders a .spoiler div: expands the content, fetching tutorial
 // text for Editorial spoilers.
-func (c *Client) renderSpoiler(s *goquery.Selection, csrf, blogURL string) string {
+func (c *Client) renderSpoiler(s *goquery.Selection, csrf, blogURL string, visited map[*html.Node]bool) string {
 	titleText := strings.TrimSpace(s.Find("b.spoiler-title").Text())
 	content := s.Find(".spoiler-content")
 
@@ -87,7 +89,7 @@ func (c *Client) renderSpoiler(s *goquery.Selection, csrf, blogURL string) strin
 			if html != "" {
 				doc, err := goquery.NewDocumentFromReader(strings.NewReader(html))
 				if err == nil {
-					sb.WriteString(nodeText(doc.Find(".ttypography").First()))
+					sb.WriteString(nodeText(doc.Find(".ttypography").First(), visited))
 					sb.WriteString("\n")
 					return sb.String()
 				}
@@ -101,13 +103,13 @@ func (c *Client) renderSpoiler(s *goquery.Selection, csrf, blogURL string) strin
 	pre := content.Find("pre code")
 	if pre.Length() > 0 {
 		sb.WriteString("```\n")
-		sb.WriteString(html.UnescapeString(pre.Text()))
+		sb.WriteString(stdhtml.UnescapeString(pre.Text()))
 		sb.WriteString("\n```\n")
 		return sb.String()
 	}
 
 	// Generic spoiler content
-	sb.WriteString(nodeText(content))
+	sb.WriteString(nodeText(content, visited))
 	sb.WriteString("\n")
 	return sb.String()
 }
@@ -135,14 +137,15 @@ func (c *Client) fetchBlogToMD(blogURL string) (string, error) {
 		sb.WriteString("\n\n")
 	}
 
+	visited := make(map[*html.Node]bool)
 	doc.Find(".ttypography").First().Children().Each(func(_ int, s *goquery.Selection) {
 		if goquery.NodeName(s) == "div" {
 			if s.HasClass("spoiler") {
-				sb.WriteString(c.renderSpoiler(s, csrf, blogURL))
+				sb.WriteString(c.renderSpoiler(s, csrf, blogURL, visited))
 				return
 			}
 		}
-		sb.WriteString(nodeText(s))
+		sb.WriteString(nodeText(s, visited))
 		sb.WriteString("\n\n")
 	})
 

@@ -9,14 +9,24 @@ import (
 	"strings"
 	"sync"
 
+	"golang.org/x/net/html"
+
 	"gitcode.com/sheng_wang/cf-tool_modify/util"
 	"github.com/PuerkitoBio/goquery"
 	"github.com/fatih/color"
 )
 
-func nodeText(sel *goquery.Selection) string {
+func nodeText(sel *goquery.Selection, visited map[*html.Node]bool) string {
 	var sb strings.Builder
 	sel.Contents().Each(func(_ int, s *goquery.Selection) {
+		node := s.Get(0)
+		// 对于 div 元素，检查是否已被处理过，避免重复解析
+		if goquery.NodeName(s) == "div" {
+			if visited[node] {
+				return
+			}
+			visited[node] = true
+		}
 		switch goquery.NodeName(s) {
 		case "br":
 			sb.WriteByte('\n')
@@ -24,24 +34,29 @@ func nodeText(sel *goquery.Selection) string {
 		case "#text":
 			sb.WriteString(s.Text())
 		case "p", "div":
-			sb.WriteString(nodeText(s))
+			sb.WriteString(nodeText(s, visited))
 			sb.WriteByte('\n')
 			sb.WriteByte('\n')
 		case "ul", "ol":
-			s.Find("li").Each(func(_ int, li *goquery.Selection) {
+			// 嵌套列表在 <li> 内部时，先加换行使子项另起一行
+			if goquery.NodeName(sel) == "li" {
+				sb.WriteByte('\n')
+				sb.WriteByte('\n')
+			}
+			s.ChildrenFiltered("li").Each(func(_ int, li *goquery.Selection) {
 				sb.WriteString("- ")
-				sb.WriteString(strings.TrimSpace(nodeText(li)))
+				sb.WriteString(strings.TrimSpace(nodeText(li, visited)))
 				sb.WriteByte('\n')
 				sb.WriteByte('\n')
 			})
 		default:
-			sb.WriteString(nodeText(s))
+			sb.WriteString(nodeText(s, visited))
 		}
 	})
 	return sb.String()
 }
 
-func sectionText(sel *goquery.Selection) string {
+func sectionText(sel *goquery.Selection, visited map[*html.Node]bool) string {
 	var sb strings.Builder
 	// title
 	title := strings.TrimSpace(sel.Find(".section-title").Text())
@@ -51,7 +66,7 @@ func sectionText(sel *goquery.Selection) string {
 		sb.WriteString("\n\n")
 	}
 	sel.Find(".section-title").Remove()
-	text := strings.TrimSpace(nodeText(sel))
+	text := strings.TrimSpace(nodeText(sel, visited))
 	// collapse multiple blank lines
 	reg := regexp.MustCompile(`\n{3,}`)
 	text = reg.ReplaceAllString(text, "\n\n")
@@ -111,6 +126,7 @@ func (c *Client) FetchStatement(URL, path string, mu *sync.Mutex) error {
 	sb.WriteString("\n")
 
 	// main statement sections (problem-statement children divs)
+	visited := make(map[*html.Node]bool)
 	doc.Find(".problem-statement > div").Each(func(_ int, s *goquery.Selection) {
 		// skip header div (title/limits already handled)
 		if s.HasClass("header") {
@@ -121,10 +137,10 @@ func (c *Client) FetchStatement(URL, path string, mu *sync.Mutex) error {
 			sb.WriteString("## Sample Tests\n\n")
 			s.Find(".sample-test").Each(func(i int, st *goquery.Selection) {
 				sb.WriteString(fmt.Sprintf("### Sample %d\n\n", i+1))
-				inputText := strings.TrimSpace(nodeText(st.Find(".input pre")))
+				inputText := strings.TrimSpace(nodeText(st.Find(".input pre"), visited))
 				reg := regexp.MustCompile(`\n{2,}`)
 				inputText = reg.ReplaceAllString(inputText, "\n")
-				outputText := strings.TrimSpace(nodeText(st.Find(".output pre")))
+				outputText := strings.TrimSpace(nodeText(st.Find(".output pre"), visited))
 				outputText = reg.ReplaceAllString(outputText, "\n")
 				sb.WriteString("**Input**\n```\n")
 				sb.WriteString(inputText)
@@ -135,7 +151,7 @@ func (c *Client) FetchStatement(URL, path string, mu *sync.Mutex) error {
 			return
 		}
 		// note / other sections
-		sb.WriteString(sectionText(s))
+		sb.WriteString(sectionText(s, visited))
 	})
 
 	content := sb.String()
