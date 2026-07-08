@@ -152,8 +152,8 @@ func (c *Client) fetchBlogToMD(blogURL string) (string, error) {
 	content := sb.String()
 	collapse := regexp.MustCompile(`\n{3,}`)
 	content = collapse.ReplaceAllString(content, "\n\n")
-	content = strings.ReplaceAll(content, "$$$", "$")
-	content = strings.ReplaceAll(content, "$$", "$")
+	content = strings.ReplaceAll(content, "$$$", " $ ")
+	content = strings.ReplaceAll(content, "$$", " $ ")
 	return content, nil
 }
 
