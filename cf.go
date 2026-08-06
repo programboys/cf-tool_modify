@@ -41,8 +41,8 @@ Usage:
   cf race [<specifier>...]
   cf pull [ac] [<specifier>...]
   cf clone [ac] [<handle>]
-  cf statement [<specifier>...]
-  cf material [<specifier>...]
+  cf statement [<specifier>...] [-d <dir>] [-f <file>]
+  cf material [<specifier>...] [-d <dir>] [-f <file>]
   cf upgrade
 
 Options:
@@ -50,8 +50,10 @@ Options:
   --version            Show version.
   -f <file>, --file <file>, <file>
                        Path to file. E.g. "a.cpp", "./temp/a.cpp"
+                       Download file name.
   -d <dir>, --dir <dir>
                        Path to directory containing sample files for cf test.
+                       Download file Path.
   <specifier>          Any useful text. E.g.
                        "https://codeforces.com/contest/100",
                        "https://codeforces.com/contest/180/problem/A",

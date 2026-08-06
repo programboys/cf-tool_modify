@@ -23,6 +23,8 @@ type Info struct {
 	ProblemID    string `json:"problem_id"`
 	SubmissionID string `json:"submission_id"`
 	RootPath     string
+	Dir          string
+	File         string
 }
 
 // ErrorNeedProblemID error
@@ -77,6 +79,9 @@ func (info *Info) Hint() string {
 
 // Path path
 func (info *Info) Path() string {
+	if len(info.Dir) > 0 {
+		return info.Dir
+	}
 	path := info.RootPath
 	if info.GroupID != "" {
 		path = filepath.Join(path, info.GroupID)

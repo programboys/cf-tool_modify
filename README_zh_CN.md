@@ -112,16 +112,18 @@ $ go env -w GOPRIVATE=gitcode.com/sheng_wang/cf-tool_modify
   cf pull [ac] [<specifier>...]
   cf clone [ac] [<handle>]
   cf upgrade
-  cf statement [<specifier>...]
-  cf material [<specifier>...]
+   cf statement [<specifier>...] [-d <dir>] [-f <file>]
+  cf material [<specifier>...] [-d <dir>] [-f <file>]
 
 参数:
   -h --help            帮助。
   --version            显示版本。
   -f <file>, --file <file>, <file>
                        文件的路径，例如 "a.cpp"、"./temp/a.cpp"
+                       文件下载名
   -d <dir>, --dir <dir>
                        样例文件所在目录路径，用于 cf test。
+                       文件下载路径
   <specifier>          任何有用的文本，例如
                        "https://codeforces.com/contest/100"、
                        "https://codeforces.com/contest/180/problem/A"、

@@ -16,10 +16,10 @@ func Material() (err error) {
 		return errors.New("You have to specify the Contest ID")
 	}
 
-	err = cln.FetchTutorial(info, config.Instance.Host)
+	err = cln.Material(info, config.Instance.Host)
 	if err != nil {
 		if err = loginAgain(cln, err); err == nil {
-			err = cln.FetchTutorial(info, config.Instance.Host)
+			err = cln.Material(info, config.Instance.Host)
 		}
 	}
 	if err != nil {

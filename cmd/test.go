@@ -154,7 +154,7 @@ func Test() (err error) {
 	if len(cfg.Template) == 0 {
 		return errors.New("You have to add at least one code template by `cf config`")
 	}
-	if len(Args.Specifier) > 0 {
+	if len(Args.Dir) == 0 && len(Args.Specifier) > 0 {
 		Args.Dir = Args.Info.Path()
 	}
 
